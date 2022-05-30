@@ -41,39 +41,43 @@ public class MainActivity extends AppCompatActivity {
      */
     int quantity=2;
     public void submitOrder(View view) {
-        String priceMessage ="Price per coffee=$5\nAmount due : "+(quantity*5);
-        displayMessage(priceMessage);
+
+        displayMessage(generateOrderSummary(calculatePrice()));
     }
 
     // This is the method for the increment button
     public void increment(View view){
         quantity++;
-        display(quantity);
+        displayQuantity(quantity);
     }
     //This method is for the decrement button
     public void decrement(View view){
         quantity--;
-        display(quantity);
+        displayQuantity(quantity);
     }
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void display(int number) {
+    private void displayQuantity(int number) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
         quantityTextView.setText("" + number);
     }
-    /**
-     * This method displays the given price on the screen.
-     */
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-    }
-    /**
-     * This method displays the given text on the screen.
-     */
+
+
     private void displayMessage(String message) {
         TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
         priceTextView.setText(message);
+    }
+    private int calculatePrice(){
+        return (quantity*5);
+    }
+
+
+    private String generateOrderSummary(int price){
+        String message = "Name: Shiro T Poison";
+        message += "\nQuantity: "+ quantity;
+        message += "\nPrice: $" + price;
+        message += "\nThank You!";
+        return message;
     }
 }
