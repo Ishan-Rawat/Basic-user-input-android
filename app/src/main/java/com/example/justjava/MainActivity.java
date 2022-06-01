@@ -85,11 +85,17 @@ public class MainActivity extends AppCompatActivity {
 
     // This is the method for the increment button
     public void increment(View view){
+        if (quantity>99){
+            return;
+        }
         quantity++;
         displayQuantity(quantity);
     }
     //This method is for the decrement button
     public void decrement(View view){
+        if (quantity<1){
+            return;
+        }
         quantity--;
         displayQuantity(quantity);
     }
