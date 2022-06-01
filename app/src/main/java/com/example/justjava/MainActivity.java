@@ -66,10 +66,18 @@ public class MainActivity extends AppCompatActivity {
      */
     int quantity=2;
     public void submitOrder(View view) {
-        CheckBox checkbox = (CheckBox) findViewById(R.id.whipped_cream_checkbox); // if I put this line at line 97 instead, then the app effin crashes. gotta debug
-        boolean status = checkbox.isChecked();
+        CheckBox whippedCreamCheckbox = (CheckBox) findViewById(R.id.whipped_cream_checkbox); // if I put this line at line 97 instead, then the app effin crashes. gotta debug
+        /**
+         * in the above line of code we are storing an abject of Checkbox class in a variable that stores such objects
+         * the method findViewById returns objects of type View, Checkbox is a subclass of the View class, thus it is casted to the type Checkbox
+         * just like how we can write int pi = (int) M_PI; where M_PI is a float value
+         */
+        boolean status = whippedCreamCheckbox.isChecked();
 
-        displayMessage(generateOrderSummary(calculatePrice(), status));
+        CheckBox chocolateCheckbox = (CheckBox) findViewById(R.id.Chocolate_checkbox);
+        boolean chocoStatus= chocolateCheckbox.isChecked();
+
+        displayMessage(generateOrderSummary(calculatePrice(), status, chocoStatus));
     }
 
     // This is the method for the increment button
@@ -101,10 +109,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private String generateOrderSummary(int price, boolean checkboxstatus){
+    private String generateOrderSummary(int price, boolean whippedCreamStatus, boolean chocolateStatus){
         String message = "Name: Shiro T Poison";
         message += "\nQuantity: "+ quantity;
-        message += "\n add whipped cream?: " + checkboxstatus;
+        message += "\n add whipped cream?: " + whippedCreamStatus;
+        message += "\n add chocolate?: " + chocolateStatus;
         message += "\nPrice: $" + price;
         message += "\nThank You!";
         return message;
