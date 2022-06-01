@@ -47,6 +47,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import java.text.NumberFormat;
 
@@ -77,7 +78,10 @@ public class MainActivity extends AppCompatActivity {
         CheckBox chocolateCheckbox = (CheckBox) findViewById(R.id.Chocolate_checkbox);
         boolean chocoStatus= chocolateCheckbox.isChecked();
 
-        displayMessage(generateOrderSummary(calculatePrice(), status, chocoStatus));
+        EditText nameField = (EditText) findViewById(R.id.name_field);
+        String Name = nameField.getText().toString();
+
+        displayMessage(generateOrderSummary(calculatePrice(), status, chocoStatus, Name));
     }
 
     // This is the method for the increment button
@@ -109,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private String generateOrderSummary(int price, boolean whippedCreamStatus, boolean chocolateStatus){
-        String message = "Name: Shiro T Poison";
+    private String generateOrderSummary(int price, boolean whippedCreamStatus, boolean chocolateStatus, String name){
+        String message = "Name: " + name;
         message += "\nQuantity: "+ quantity;
         message += "\n add whipped cream?: " + whippedCreamStatus;
         message += "\n add chocolate?: " + chocolateStatus;
