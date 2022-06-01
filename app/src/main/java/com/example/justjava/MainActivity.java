@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
      */
     int quantity=2;
     public void submitOrder(View view) {
-        CheckBox whippedCreamCheckbox = (CheckBox) findViewById(R.id.whipped_cream_checkbox); // if I put this line at line 97 instead, then the app effin crashes. gotta debug
+        CheckBox whippedCreamCheckbox = (CheckBox) findViewById(R.id.whipped_cream_checkbox); // if I put this line anywhere outside this function, then the app effin crashes. gotta debug
         /**
          * in the above line of code we are storing an abject of Checkbox class in a variable that stores such objects
          * the method findViewById returns objects of type View, Checkbox is a subclass of the View class, thus it is casted to the type Checkbox
@@ -80,8 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         EditText nameField = (EditText) findViewById(R.id.name_field);
         String Name = nameField.getText().toString();
-
-        displayMessage(generateOrderSummary(calculatePrice(), status, chocoStatus, Name));
+        displayMessage(generateOrderSummary(calculatePrice(status, chocoStatus), status, chocoStatus, Name));
     }
 
     // This is the method for the increment button
@@ -108,8 +107,13 @@ public class MainActivity extends AppCompatActivity {
         priceTextView.setText(message);
     }
 
-    private int calculatePrice(){
-        return (quantity*5);
+    private int calculatePrice(boolean whippedStatus, boolean chocoStatus){
+        //whippedCream costs $2
+        //choco costs $1
+        int basePrice= 5;
+        if (whippedStatus)basePrice+=2;
+        if (chocoStatus)basePrice+=1;
+        return (quantity*basePrice);
     }
 
 
