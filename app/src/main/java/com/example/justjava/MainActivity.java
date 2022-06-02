@@ -17,6 +17,8 @@
  */
 package com.example.justjava;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +51,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.net.URLEncoder;
 import java.text.NumberFormat;
 
 /**
@@ -66,6 +70,29 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     int quantity=2;
+
+    /**
+     * A NOTE ON INTENTS:
+     * Sending intents:
+     * Asking another app to do something
+     * An intent allows you to start an activity in another app by describing a simple action you'd like to perform
+     *
+     * an intent is made up of:
+     * 1. Action
+     * 2. Data
+     *
+     * Data is sent in a format called URI(Unified Resource Identifier)
+     */
+//    ACTION_SENDTO just ain't working!!!
+//    public void composeEmail(String[] addresses, String subject) {
+//        Intent intent = new Intent(Intent.ACTION_SENDTO);
+//        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+//        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+//        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(intent);
+//        }
+//    }
     public void submitOrder(View view) {
         CheckBox whippedCreamCheckbox = (CheckBox) findViewById(R.id.whipped_cream_checkbox); // if I put this line anywhere outside this function, then the app effin crashes. gotta debug
         /**
@@ -80,8 +107,19 @@ public class MainActivity extends AppCompatActivity {
 
         EditText nameField = (EditText) findViewById(R.id.name_field);
         String Name = nameField.getText().toString();
+        //why does this work but the code in google devs page doesn't
+        //plus there are some problems with the output
+        String uriText = "mailto:someone@example.com" +
+                "?subject=" + URLEncoder.encode("Subject") +
+                "&body=" + URLEncoder.encode("some text here");
+        Uri uri = Uri.parse(uriText);
+        Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+        sendIntent.setData(uri);
+        startActivity(Intent.createChooser(sendIntent, "Send Email"));
+
         displayMessage(generateOrderSummary(calculatePrice(status, chocoStatus), status, chocoStatus, Name));
     }
+    //not making any notes for localisation. Revisit udacity course when required.
 
     // This is the method for the increment button
     public void increment(View view){
